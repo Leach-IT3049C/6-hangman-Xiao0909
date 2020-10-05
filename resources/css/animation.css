@@ -1,0 +1,14 @@
+h1{
+  color: blueviolet;
+  animation-name: hangman;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  position: relative;
+}
+@keyframes hangman{
+  0% {color: #FFC875; left: 332.8px; top: 0px;}
+  25% {color: #E9724C; left:665.6px; top: 0px;}
+  50% {color: #C5283D; left:998.4px; top: 0px;}
+  75% {color: #481D24; left:1331.2px; top: 0px;}
+  100% {color: #255f87; left:1664px; top: 0px;}
+}
