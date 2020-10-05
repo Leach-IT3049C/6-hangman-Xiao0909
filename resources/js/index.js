@@ -21,7 +21,7 @@ let canvas = document.getElementById(`hangmanCanvas`);
 // The following Try-Catch Block will catch the errors thrown
 try {
   // Instantiate a game Object using the Hangman class.
-
+  let game = new Hangman(canvas);
   // add a submit Event Listener for the to the difficultySelectionForm
   //    get the difficulty input
   //    call the game start() method, the callback function should do the following
@@ -29,7 +29,17 @@ try {
   //       2. show the gameWrapper
   //       3. call the game getWordHolderText and set it to the wordHolderText
   //       4. call the game getGuessessText and set it to the guessesText
-  difficultySelectForm.addEventListener(`submit`, function (event) {});
+    difficultySelectForm.addEventListener(`submit`, async function (event) {
+    event.preventDefault();
+  
+    let difficulty = difficultySelect.value;
+    await game.start(difficulty, function(){
+      startWrapper.classList.add('hidden');
+      gameWrapper.classList.remove(`hidden`);
+
+      wordHolderText.innerText = game.getWordHolderText();
+    })
+  });
 
   // add a submit Event Listener to the guessForm
   //    get the guess input
@@ -44,13 +54,33 @@ try {
   //      2. disable the guessButton
   //      3. show the resetGame button
   // if the game is won or lost, show an alert.
-  guessForm.addEventListener(`submit`, function (e) {});
+  guessForm.addEventListener(`submit`, function (e){
+     e.preventDefault();
+    let guessedLetter = guessInput.value
+    game.guess(guessedLetter);
+    wordHolderText.innerText = game.getWordHolderText();
+    guessesText.innerText = game.getGuessesText();
+    guessInput.value = '';
+
+    if(game.isOver){
+      if(game.didWin){
+        alert('congratulations You won')
+      }else{
+        alert('you lose')
+      }
+      startWrapper.classList.remove(`hidden`);
+      gameWrapper.classList.add(`hidden`);
+      resetGame.classList.remove(`hidden`);
+    }
+  });
+
 
   // add a click Event Listener to the resetGame button
   //    show the startWrapper
   //    hide the gameWrapper
   resetGame.addEventListener(`click`, function (e) {});
-} catch (error) {
+} 
+catch (error) {
   console.error(error);
   alert(error);
 }
